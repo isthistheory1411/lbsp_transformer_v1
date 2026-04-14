@@ -1,0 +1,81 @@
+# -------------------------------
+# Data settings
+# -------------------------------
+data:
+  train_df: "patho/to/train.pkl"        # path to training DataFrame
+  val_df: "path/to/val.pkl"            # path to validation DataFrame
+  test_df: "path/to/test.pkl"          # path to test DataFrame
+  h5_embeddings: "path/to/per_residue_embeddings.h5"  # per-residue embeddings HDF5
+
+# -------------------------------
+# Model settings
+# -------------------------------
+model:
+  model_type: "transformer_mlp"   # "mlp" | "transformer_mlp" | "bilstm_mlp"
+  residue_emb_dim: 1024           # input embedding dimension (update for non-ProtT5 models)
+  dropout: 0.1                    # dropout probability (shared across all model types)
+  max_len: 1022                   # max sequence length per protein
+
+  # MLP-only settings (ignored for transformer_mlp / bilstm_mlp)
+  protein_emb_dim: 256
+  hidden_dims: [512, 256, 128]
+
+  # Shared setting (transformer_mlp and bilstm_mlp)
+  global_pool: "mean"             # "mean" | "attention"
+
+  # Transformer-specific settings
+  d_model: 256                    # internal model dimension
+  nhead: 8                        # number of attention heads (d_model must be divisible by nhead)
+  num_transformer_layers: 2       # number of Transformer encoder layers
+  transformer_ff_dim: 512         # feedforward dimension inside each Transformer layer
+  pos_encoding_type: "sinusoidal" # "sinusoidal" | "learned" | "rope"
+
+  # BiLSTM-specific settings
+  lstm_hidden_size: 128           # hidden size per direction (output = lstm_hidden_size * 2)
+  lstm_num_layers: 2              # number of LSTM layers
+  lstm_pool_nhead: 8              # attention heads for global pool (lstm_hidden_size*2 must be divisible)
+
+# -------------------------------
+# Training settings
+# -------------------------------
+training:
+  batch_size: 32                  # reduced from baseline (Transformer attention memory)
+  num_workers: 0                  # DataLoader workers (increase on HPC)
+  learning_rate: 0.0001           # Adam LR (lower than baseline for Transformer stability)
+  weight_decay: 1e-4              # Adam L2 regularisation
+  num_epochs: 100                 # max epochs (cosine restarts benefit from longer budget)
+  patience: 25                    # early stopping patience
+
+  # Automatic Mixed Precision (AMP)
+  use_amp: false                  # enable AMP (recommended for A40 / RTX 3090+ / RTX 4000 series)
+  amp_dtype: "auto"               # "auto" (BF16 if supported, else FP16) | "bf16" | "fp16" | "none"
+
+  # Loss function
+  loss_fn: "focal"                # "bce" | "focal"
+  focal_alpha: 0.1                # ~positive class fraction; replaces pos_weight for focal
+  focal_gamma: 2.0                # focusing exponent (0 = standard BCE)
+  pos_weight: 9.0                 # used only when loss_fn = "bce"
+
+  # LR scheduling
+  lr_scheduler: "cosine_warm_restart"  # null | "cosine_warm_restart"
+  lr_T0: 10                       # epochs for first cosine restart
+  lr_T_mult: 2                    # period multiplier after each restart
+
+  # Early stopping
+  early_stopping_metric: "mcc"   # "mcc" (recommended) | "loss"
+  mcc_sweep_thresholds: [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+
+  seed: 42
+
+# -------------------------------
+# Paths
+# -------------------------------
+paths:
+  checkpoint: "path/to/best_model.pt"         # path to save best model checkpoint
+  results: "path/to/training_results.joblib"  # path to save training results
+
+# -------------------------------
+# Evaluation (post-training threshold sweep)
+# -------------------------------
+evaluation:
+  thresholds: [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
