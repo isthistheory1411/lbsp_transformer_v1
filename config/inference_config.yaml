@@ -1,0 +1,47 @@
+# -------------------------------
+# Data
+# -------------------------------
+data:
+  test_df: "/path/to/test.pkl"            # DataFrame with protein keys (optional labels)
+  h5_embeddings: "/path/to/embeddings.h5" # per-residue embeddings HDF5
+
+# -------------------------------
+# Model
+# Must match the architecture used during training.
+# -------------------------------
+model:
+  model_type: "transformer_mlp"   # "mlp" | "transformer_mlp" | "bilstm_mlp"
+  residue_emb_dim: 1024
+  dropout: 0.1
+  max_len: 1022
+
+  # MLP-only (ignored for transformer_mlp / bilstm_mlp)
+  protein_emb_dim: 256
+  hidden_dims: [512, 256, 128]
+
+  # Transformer-specific
+  d_model: 256
+  nhead: 8
+  num_transformer_layers: 2
+  transformer_ff_dim: 512
+  use_learned_pos_encoding: false
+
+  # BiLSTM-specific
+  lstm_hidden_size: 128
+  lstm_num_layers: 2
+
+# -------------------------------
+# Paths
+# -------------------------------
+paths:
+  checkpoint: "/path/to/best_model.pt"       # trained model checkpoint
+  inference_csv: "/path/to/predictions.csv"  # output predictions CSV
+
+# -------------------------------
+# Inference options
+# -------------------------------
+inference:
+  batch_size: 32
+  threshold: 0.5        # probability threshold for binary classification
+  device: "cuda"        # "cuda" or "cpu"
+  seed: 42
