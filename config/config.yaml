@@ -2,10 +2,10 @@
 # Data settings
 # -------------------------------
 data:
-  train_df: "patho/to/train.pkl"        # path to training DataFrame
-  val_df: "path/to/val.pkl"            # path to validation DataFrame
-  test_df: "path/to/test.pkl"          # path to test DataFrame
-  h5_embeddings: "path/to/per_residue_embeddings.h5"  # per-residue embeddings HDF5
+  train_df: "/path/to/train.pkl"        # path to training DataFrame
+  val_df: "/path/to/val.pkl"            # path to validation DataFrame
+  test_df: "/path/to/test.pkl"          # path to test DataFrame
+  h5_embeddings: "/path/to/per_residue_embeddings.h5"  # per-residue embeddings HDF5
 
 # -------------------------------
 # Model settings
@@ -71,8 +71,8 @@ training:
 # Paths
 # -------------------------------
 paths:
-  checkpoint: "path/to/best_model.pt"         # path to save best model checkpoint
-  results: "path/to/training_results.joblib"  # path to save training results
+  checkpoint: "/path/to/best_model.pt"         # path to save best model checkpoint
+  results: "/path/to/training_results.joblib"  # path to save training results
 
 # -------------------------------
 # Evaluation (post-training threshold sweep)
