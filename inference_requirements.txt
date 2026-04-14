@@ -1,0 +1,8 @@
+h5py==3.16.0
+joblib==1.5.3
+numpy==1.26.4
+omegaconf==2.3.0
+pandas==3.0.1
+PyYAML==6.0.3
+scikit-learn==1.8.0
+torch==2.2.2
