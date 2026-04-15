@@ -81,7 +81,7 @@ class RotaryEmbedding(nn.Module):
         """
         Apply RoPE per attention head.
 
-        x:     [B, L, d_model]
+        x: [B, L, d_model]
         nhead: number of attention heads (d_model must be divisible by nhead)
 
         Returns [B, L, d_model] with rotation applied to each head's dims.
