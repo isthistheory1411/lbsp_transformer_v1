@@ -18,10 +18,10 @@ def evaluate_on_test_hpc(
     verbose: bool = True
 ) -> Dict[str, float]:
     """
-    Evaluate trained ResidueMLP on test set (HPC-ready).
+    Evaluate trained model on test set (HPC-ready).
 
     Args:
-        model: trained ResidueMLP
+        model: trained model
         test_loader: DataLoader for test dataset
         device: 'cuda' or 'cpu'
         threshold: probability threshold for binary classification
@@ -84,7 +84,7 @@ def find_optimal_threshold(
     Sweep thresholds on validation set to find the threshold that maximizes MCC.
 
     Args:
-        model: trained ResidueMLP
+        model: trained model
         val_loader: validation DataLoader
         device: 'cuda' or 'cpu'
         thresholds: array of probability thresholds to test
