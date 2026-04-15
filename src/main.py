@@ -192,7 +192,7 @@ if __name__ == "__main__":
     # -----------------------------------------------------------------------
     # Optimizer and loss
     # -----------------------------------------------------------------------
-    optimizer = torch.optim.Adam(
+    optimizer = torch.optim.AdamW(
         model.parameters(),
         lr=cfg.training.learning_rate,
         weight_decay=cfg.training.weight_decay
