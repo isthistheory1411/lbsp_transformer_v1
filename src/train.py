@@ -140,9 +140,9 @@ def train_model_hpc(
         with torch.no_grad():
             for batch in val_loader:
                 embeddings = batch['embeddings'].to(device)
-                mask       = batch['mask'].to(device)
-                position   = batch['position'].to(device)
-                labels     = batch['labels'].to(device)
+                mask = batch['mask'].to(device)
+                position = batch['position'].to(device)
+                labels = batch['labels'].to(device)
 
                 logits = model(embeddings, mask, position)
                 loss = loss_fn(logits, labels, mask)
