@@ -97,9 +97,9 @@ def train_model_hpc(
 
         for batch_idx, batch in enumerate(train_loader):
             embeddings = batch['embeddings'].to(device)
-            mask       = batch['mask'].to(device)
-            position   = batch['position'].to(device)
-            labels     = batch['labels'].to(device)
+            mask = batch['mask'].to(device)
+            position = batch['position'].to(device)
+            labels = batch['labels'].to(device)
 
             optimizer.zero_grad()
 
