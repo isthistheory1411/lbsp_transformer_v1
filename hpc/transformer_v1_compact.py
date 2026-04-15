@@ -925,7 +925,7 @@ if __name__ == "__main__":
     print(f"Model: {OmegaConf.select(cfg, 'model.model_type', default='mlp')} "
           f"| Trainable parameters: {total_params:,}")
 
-    optimizer = torch.optim.Adam(
+    optimizer = torch.optim.AdamW(
         model.parameters(),
         lr=cfg.training.learning_rate,
         weight_decay=cfg.training.weight_decay
